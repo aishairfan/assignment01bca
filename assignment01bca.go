@@ -11,35 +11,35 @@ func CalculateHash(strtoHash string) string {
 }
 
 type Block struct {
-	transaction  string
-	nonce        int
-	hashptr      *Block
-	previousHash string
-	currHash     string
+	Transaction  string
+	Nonce        int
+	Hashptr      *Block
+	PreviousHash string
+	CurrHash     string
 }
 
-func NewBlock(transaction string, nonce int, previousHash string) *Block {
+func NewBlock(Transaction string, Nonce int, PreviousHash string) *Block {
 	b := new(Block)
 	/*	b := new(Block{
-		transaction, nonce, previousHash, hashptr, CalculateHash(fmt.Sprintf("%s%d%s", transaction, nonce, previousHash)),
+		Transaction, Nonce, PreviousHash, Hashptr, CalculateHash(fmt.Sprintf("%s%d%s", Transaction, Nonce, PreviousHash)),
 	})*/
-	b.transaction = transaction
-	b.nonce = nonce
-	b.previousHash = previousHash
-	b.hashptr = nil
-	b.currHash = CalculateHash(toString(b))
+	b.Transaction = Transaction
+	b.Nonce = Nonce
+	b.PreviousHash = PreviousHash
+	b.Hashptr = nil
+	b.CurrHash = CalculateHash(toString(b))
 	return b
 }
 func toString(block *Block) string {
 	//var final string
-	final := fmt.Sprintf("%s %d %x", block.transaction, block.nonce, block.previousHash)
+	final := fmt.Sprintf("%s %d %x", block.Transaction, block.Nonce, block.PreviousHash)
 	return final
 }
 func ListBlocks(ptr *Block) {
 	iter := ptr
 	for iter != nil {
-		fmt.Printf("\n\nTransaction: %s\n Nonce %d\n Current Hash %s\n Previous Hash %s\n", iter.transaction, iter.nonce, iter.currHash, iter.previousHash)
-		iter = iter.hashptr
+		fmt.Printf("\n\nTransaction: %s\n Nonce %d\n Current Hash %s\n Previous Hash %s\n", iter.Transaction, iter.Nonce, iter.CurrHash, iter.PreviousHash)
+		iter = iter.Hashptr
 	}
 
 }
@@ -47,23 +47,23 @@ func ChangeBlock(ptr *Block) {
 	iter := ptr
 	i := 3
 	for i != 0 {
-		//fmt.Printf("\n\nTransaction: %s\n Nonce %d\n Current Hash %s\n Previous Hash %s\n", iter.transaction, iter.nonce, iter.currHash, iter.previousHash)
-		iter = iter.hashptr
+		//fmt.Printf("\n\nTransaction: %s\n Nonce %d\n Current Hash %s\n Previous Hash %s\n", iter.Transaction, iter.Nonce, iter.CurrHash, iter.PreviousHash)
+		iter = iter.Hashptr
 		i--
 	}
-	iter.transaction = "B to C"
-	iter.currHash = CalculateHash(toString(iter))
+	iter.Transaction = "B to C"
+	iter.CurrHash = CalculateHash(toString(iter))
 }
 func VerifyChain(ptr *Block) bool {
 	iter := ptr
 	for iter != nil {
-		if iter.previousHash != iter.hashptr.currHash {
-			fmt.Print("Alert!! Changes were made to the following transaction\nHashes do not match\n")
-			iter = iter.hashptr
-			fmt.Printf("\n\nTransaction: %s\n Nonce %d\n Current Hash %s\n Previous Hash %s\n", iter.transaction, iter.nonce, iter.currHash, iter.previousHash)
+		if iter.PreviousHash != iter.Hashptr.CurrHash {
+			fmt.Print("Alert!! Changes were made to the following Transaction\nHashes do not match\n")
+			iter = iter.Hashptr
+			fmt.Printf("\n\nTransaction: %s\n Nonce %d\n Current Hash %s\n Previous Hash %s\n", iter.Transaction, iter.Nonce, iter.CurrHash, iter.PreviousHash)
 			return false
 		}
-		iter = iter.hashptr
+		iter = iter.Hashptr
 	}
 	return true
 }
